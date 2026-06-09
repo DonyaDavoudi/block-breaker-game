@@ -22,7 +22,7 @@ ball.style.height = "30px";
 ball.style.backgroundColor = "white";
 ball.style.borderRadius = "25px";
 ball.style.backgroundImage = "url('ball.png')";
-ball.backgroundSize = "30px 30px";
+ball.style.backgroundSize = "30px 30px";
 ball.style.top = "70%";
 ball.style.left = "50%";
 ball.style.display = "none";
@@ -50,9 +50,26 @@ document.addEventListener("keyup", function (e) {
   if (e.keyCode === 39) paddle.right = false;
 });
 
+const player = {
+  gameover: true,
+};
+
 function startGame() {
-  console.log("start");
-  window.requestAnimationFrame(update);
+  if (player.gameover) {
+    player.gameover = false;
+    gameover.style.display = "none";
+    player.score = 0;
+    player.lives = 3;
+    ball.style.display = "block";
+    //setup bricks
+    scoreUpdate();
+    window.requestAnimationFrame(update);
+  }
+}
+
+function scoreUpdate() {
+  document.querySelector(".score").textContent = player.score;
+  document.querySelector(".lives").textContent = player.lives;
 }
 
 function update() {
