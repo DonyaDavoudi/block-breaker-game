@@ -61,7 +61,7 @@ function startGame() {
     player.score = 0;
     player.lives = 3;
     ball.style.display = "block";
-    setupBricks(30);
+    setupBricks(10);
     scoreUpdate();
     window.requestAnimationFrame(update);
   }
@@ -78,9 +78,24 @@ function setupBricks(num) {
       row.y += 50;
       row.x = (conDim.width % 100) / 2;
     }
-    //createBrick
+    row.count = x;
+    createBrick(row);
     row.x += 100;
   }
+}
+
+function createBrick(pos) {
+  const div = document.createElement("div");
+  div.setAttribute("class", "brick");
+  div.style.backgroundColor = randomColor();
+  div.textContent = pos.count + 1;
+  div.style.left = pos.x + "px";
+  div.style.top = pos.y + "px";
+  container.appendChild(div);
+}
+
+function randomColor() {
+  return "#" + Math.random().toString(16).substr(-6);
 }
 
 function scoreUpdate() {
