@@ -1,0 +1,47 @@
+body {
+  background-color: rgb(4, 0, 48);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+.container {
+  height: 600px;
+  width: 80%;
+  overflow: hidden;
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 10px;
+  position: relative;
+}
+
+.info {
+  font-family: monospace;
+  font-size: 2em;
+}
+
+.score,
+.lives {
+  font-size: 2em;
+}
+
+.brick {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 91px;
+  height: 40px;
+  padding: 1px;
+  color: white;
+  border: 1px solid white;
+  font-size: 1.5em;
+  text-align: center;
+  line-height: 40px;
+}
