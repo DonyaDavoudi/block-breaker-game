@@ -38,6 +38,46 @@ paddle.style.left = "45%";
 paddle.style.borderRadius = "10px";
 container.appendChild(paddle);
 
+document.addEventListener("keydown", function (e) {
+  console.log(e.keyCode);
+  if (e.keyCode === 37) paddle.left = true;
+  if (e.keyCode === 39) paddle.right = true;
+});
+
+document.addEventListener("keyup", function (e) {
+  console.log(e.keyCode);
+  if (e.keyCode === 37) paddle.left = false;
+  if (e.keyCode === 39) paddle.right = false;
+});
+
 function startGame() {
   console.log("start");
+  window.requestAnimationFrame(update);
 }
+
+function update() {
+  let pCurrent = paddle.offsetLeft;
+  console.log(pCurrent);
+  if (paddle.left) {
+    pCurrent -= 5;
+  }
+  if (paddle.right) {
+    pCurrent += 5;
+  }
+  paddle.style.left = pCurrent + "px";
+  window.requestAnimationFrame(update);
+}
+
+/*var start = null;
+
+function step(timestamp) {
+  if (!start) start = timestamp;
+  var progress = timestamp - start;
+  container.style.transform =
+    "translateX(" + Math.min(progress / 10, 200) + "px)";
+  if (progress < 2000) {
+    console.log(progress);
+    window.requestAnimationFrame(step);
+  }
+}
+window.requestAnimationFrame(step);*/
