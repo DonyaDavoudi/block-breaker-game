@@ -61,9 +61,25 @@ function startGame() {
     player.score = 0;
     player.lives = 3;
     ball.style.display = "block";
-    //setup bricks
+    setupBricks(30);
     scoreUpdate();
     window.requestAnimationFrame(update);
+  }
+}
+
+function setupBricks(num) {
+  let row = {
+    x: (conDim.width % 100) / 2,
+    y: 50,
+  };
+  console.log(row);
+  for (let x = 0; x < num; x++) {
+    if (row.x > conDim.width - 100) {
+      row.y += 50;
+      row.x = (conDim.width % 100) / 2;
+    }
+    //createBrick
+    row.x += 100;
   }
 }
 
