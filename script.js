@@ -61,6 +61,7 @@ function startGame() {
     player.score = 0;
     player.lives = 3;
     ball.style.display = "block";
+    player.ballDir = [5, 5];
     setupBricks(30);
     scoreUpdate();
     window.requestAnimationFrame(update);
@@ -111,7 +112,7 @@ function scoreUpdate() {
 
 function update() {
   let pCurrent = paddle.offsetLeft;
-  console.log(pCurrent);
+  moveBall();
   if (paddle.left) {
     pCurrent -= 5;
   }
@@ -120,6 +121,27 @@ function update() {
   }
   paddle.style.left = pCurrent + "px";
   window.requestAnimationFrame(update);
+}
+
+function moveBall() {
+  let posBall = {
+    x: ball.offsetLeft,
+    y: ball.offsetTop,
+  };
+
+  if (posBall.y > conDim.height - 20 || posBall.y < 0) {
+    player.ballDir[1] *= -1;
+  }
+
+  if (posBall.x > conDim.width - 20 || posBall.x < 0) {
+    player.ballDir[0] *= -1;
+  }
+
+  posBall.y += player.ballDir[1];
+  posBall.x += player.ballDir[0];
+
+  ball.style.top = posBall.y + "px";
+  ball.style.left = posBall.x + "px";
 }
 
 /*var start = null;
