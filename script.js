@@ -39,13 +39,13 @@ paddle.style.borderRadius = "10px";
 container.appendChild(paddle);
 
 document.addEventListener("keydown", function (e) {
-  console.log(e.keyCode);
+  //console.log(e.keyCode);
   if (e.keyCode === 37) paddle.left = true;
   if (e.keyCode === 39) paddle.right = true;
 });
 
 document.addEventListener("keyup", function (e) {
-  console.log(e.keyCode);
+  //console.log(e.keyCode);
   if (e.keyCode === 37) paddle.left = false;
   if (e.keyCode === 39) paddle.right = false;
 });
@@ -101,6 +101,19 @@ function createBrick(pos) {
   container.appendChild(div);
 }
 
+function isCollide(a, b) {
+  let aRect = a.getBoundingClientRect();
+  let bRect = b.getBoundingClientRect();
+  //console.log(aRect);
+  //console.log(bRect);
+  return !(
+    aRect.right < bRect.left ||
+    aRect.left > bRect.right ||
+    aRect.bottom < bRect.top ||
+    aRect.top > bRect.bottom
+  );
+}
+
 function randomColor() {
   return "#" + Math.random().toString(16).substr(-6);
 }
@@ -135,6 +148,13 @@ function moveBall() {
 
   if (posBall.x > conDim.width - 20 || posBall.x < 0) {
     player.ballDir[0] *= -1;
+  }
+
+  if (isCollide(paddle, ball)) {
+    let temp = (posBall.x - (paddle.offsetLeft + paddle.offsetWidth / 2)) / 10;
+    console.log("hit");
+    player.balldir[0] = temp;
+    player.ballDir[1] *= -1;
   }
 
   posBall.y += player.ballDir[1];
