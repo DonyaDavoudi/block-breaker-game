@@ -48,6 +48,10 @@ document.addEventListener("keyup", function (e) {
   //console.log(e.keyCode);
   if (e.keyCode === 37) paddle.left = false;
   if (e.keyCode === 39) paddle.right = false;
+  if (e.keyCode === 38 && !player.inplay && !player.gameover) {
+    player.inplay = true;
+    player.ballDir = [2, -5];
+  }
 });
 
 const player = {
@@ -57,14 +61,47 @@ const player = {
 function startGame() {
   if (player.gameover) {
     player.gameover = false;
+    player.inplay = false;
     gameover.style.display = "none";
     player.score = 0;
     player.lives = 3;
     ball.style.display = "block";
-    player.ballDir = [5, 5];
     setupBricks(30);
+    resetBall();
     scoreUpdate();
     window.requestAnimationFrame(update);
+  }
+}
+
+function resetBall() {
+  player.inplay = false;
+  ball.style.left =
+    paddle.offsetLeft + paddle.offsetWidth / 2 - ball.offsetWidth / 2 + "px";
+  ball.style.top = paddle.offsetTop - ball.offsetHeight - 5 + "px";
+}
+
+function fallOff() {
+  player.lives--;
+
+  if (player.lives <= 0) {
+    player.lives = 0;
+    scoreUpdate();
+    endGame();
+  }
+
+  scoreUpdate();
+  resetBall();
+}
+
+function endGame() {
+  player.gamover = true;
+  player.inplay = false;
+  ball.style.display = "none";
+  gameover.style.display = "block";
+  gameover.innerHTML = "GAME OVER<br>Your score: " + player.score;
+  let bricks = document.querySelectorAll(".brick");
+  for (let brick of bricks) {
+    brick.remove();
   }
 }
 
@@ -124,22 +161,29 @@ function scoreUpdate() {
 }
 
 function update() {
-  let pCurrent = paddle.offsetLeft;
-  moveBall();
-  if (paddle.left) {
-    pCurrent -= 5;
+  if (!player.gameover) {
+    let pCurrent = paddle.offsetLeft;
+    if (paddle.left) {
+      pCurrent -= 5;
+    }
+    if (paddle.right) {
+      pCurrent += 5;
+    }
+    if (pCurrent < 0) {
+      pCurrent = 0;
+    }
+    if (pCurrent > conDim.width - paddle.offsetWidth) {
+      pCurrent = conDim.width - paddle.offsetWidth;
+    }
+    paddle.style.left = pCurrent + "px";
+
+    if (player.inplay) {
+      moveBall();
+    } else {
+      resetBall();
+    }
+    window.requestAnimationFrame(update);
   }
-  if (paddle.right) {
-    pCurrent += 5;
-  }
-  if (pCurrent < 0) {
-    pCurrent = 0;
-  }
-  if (pCurrent > conDim.width - paddle.offsetWidth) {
-    pCurrent = conDim.width - paddle.offsetWidth;
-  }
-  paddle.style.left = pCurrent + "px";
-  window.requestAnimationFrame(update);
 }
 
 function moveBall() {
@@ -148,10 +192,13 @@ function moveBall() {
     y: ball.offsetTop,
   };
 
-  if (posBall.y > conDim.height - 20 || posBall.y < 0) {
-    player.ballDir[1] *= -1;
+  if (posBall.y > conDim.height - ball.offsetHeight) {
+    fallOff();
   }
 
+  if (posBall < 0) {
+    player.ballDir[1] *= -1;
+  }
   if (posBall.x > conDim.width - 20 || posBall.x < 0) {
     player.ballDir[0] *= -1;
   }
