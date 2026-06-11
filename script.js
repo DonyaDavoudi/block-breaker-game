@@ -132,6 +132,12 @@ function update() {
   if (paddle.right) {
     pCurrent += 5;
   }
+  if (pCurrent < 0) {
+    pCurrent = 0;
+  }
+  if (pCurrent > conDim.width - paddle.offsetWidth) {
+    pCurrent = conDim.width - paddle.offsetWidth;
+  }
   paddle.style.left = pCurrent + "px";
   window.requestAnimationFrame(update);
 }
