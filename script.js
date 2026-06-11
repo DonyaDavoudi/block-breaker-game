@@ -196,7 +196,7 @@ function moveBall() {
     fallOff();
   }
 
-  if (posBall < 0) {
+  if (posBall.y < 0) {
     player.ballDir[1] *= -1;
   }
   if (posBall.x > conDim.width - 20 || posBall.x < 0) {
