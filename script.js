@@ -50,7 +50,8 @@ document.addEventListener("keyup", function (e) {
   if (e.keyCode === 39) paddle.right = false;
   if (e.keyCode === 38 && !player.inplay && !player.gameover) {
     player.inplay = true;
-    player.ballDir = [2, -5];
+    let speed = 5 + player.level;
+    player.ballDir = [2, -speed];
   }
 });
 
@@ -64,9 +65,10 @@ function startGame() {
     player.inplay = false;
     gameover.style.display = "none";
     player.score = 0;
-    player.lives = 3;
+    player.lives = 5;
+    player.level = 1;
     ball.style.display = "block";
-    setupBricks(30);
+    setupBricks(15);
     resetBall();
     scoreUpdate();
     window.requestAnimationFrame(update);
@@ -106,8 +108,10 @@ function endGame() {
 }
 
 function nextLevel() {
+  player.level++;
   player.inplay = false;
-  setupBricks(30);
+  let brickAmount = 15 + player.level * 5;
+  setupBricks(brickAmount);
   resetBall();
 }
 
@@ -164,6 +168,7 @@ function randomColor() {
 function scoreUpdate() {
   document.querySelector(".score").textContent = player.score;
   document.querySelector(".lives").textContent = player.lives;
+  document.querySelector(".level").textContent = player.level;
 }
 
 function update() {
