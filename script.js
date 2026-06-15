@@ -94,7 +94,7 @@ function fallOff() {
 }
 
 function endGame() {
-  player.gamover = true;
+  player.gameover = true;
   player.inplay = false;
   ball.style.display = "none";
   gameover.style.display = "block";
@@ -103,6 +103,12 @@ function endGame() {
   for (let brick of bricks) {
     brick.remove();
   }
+}
+
+function nextLevel() {
+  player.inplay = false;
+  setupBricks(30);
+  resetBall();
 }
 
 function setupBricks(num) {
@@ -217,6 +223,10 @@ function moveBall() {
       tBrick.parentNode.removeChild(tBrick);
       player.score++;
       scoreUpdate();
+
+      if (document.querySelectorAll(".brick").length === 0) {
+        nextLevel();
+      }
     }
   }
 
