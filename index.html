@@ -6,12 +6,41 @@
     <title>Block Breaker</title>
     <link rel="stylesheet" href="style.css" />
   </head>
+
   <body>
-    <div class="info">
-      Score: <span class="score"></span> Lives:
-      <span class="lives"></span>Level: <span class="level"></span>
-    </div>
-    <div class="container"></div>
+    <main class="game-shell">
+      <section class="hud">
+        <div class="hud-card score-card">
+          <span>SCORE</span>
+          <span class="score">0</span>
+        </div>
+
+        <div class="hud-card level-card">
+          <span>LEVEL</span>
+          <span class="level">1</span>
+        </div>
+
+        <div class="hud-card lives-card">
+          <span>LIVES</span>
+          <span class="lives">❤ ❤ ❤ ❤ ❤</span>
+        </div>
+      </section>
+      <section class="game-layout">
+        <div class="container"></div>
+
+        <aside class="side-panel">
+          <h1>
+            <span>BLOCK</span>
+            <span>BREAKER</span>
+          </h1>
+
+          <button class="menu-button start-button">▶ START</button>
+          <button class="menu-button how-button">? HOW TO PLAY</button>
+          <button class="menu-button quit-button">▣ QUIT</button>
+        </aside>
+      </section>
+    </main>
+
     <script src="script.js"></script>
   </body>
 </html>
