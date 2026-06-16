@@ -6,6 +6,7 @@
   --bg-dark: #171541;
   --bg-panel: #211950;
   --pink: #ff9fcb;
+  --heart-pink: #e85f98;
   --pink-light: #ffc1df;
   --purple: #a970e7;
   --purple-dark: #7656c9;
@@ -76,11 +77,11 @@ body {
 }
 
 .lives {
-  color: var(--pink);
+  color: var(--heart-pink);
   letter-spacing: 4px;
   text-shadow:
-    2px 2px 0 rgba(23, 21, 65, 0.65),
-    0 0 8px rgba(255, 159, 203, 0.2);
+    2px 2px 0 rgba(23, 21, 65, 0.75),
+    0 0 8px rgba(232, 95, 152, 0.28);
 }
 
 /* MAIN LAYOUT */
@@ -199,13 +200,10 @@ body {
   position: fixed;
   inset: 0;
   z-index: 100;
-
   display: none;
   align-items: center;
   justify-content: center;
-
   padding: 32px;
-
   background:
     radial-gradient(
       circle at 50% 30%,
@@ -217,13 +215,10 @@ body {
 
 .how-card {
   position: relative;
-
   width: min(640px, 100%);
   padding: 34px 32px 30px;
-
   border: 7px solid var(--bg-dark);
   border-radius: 16px;
-
   background:
     radial-gradient(
       circle at 18% 20%,
@@ -236,7 +231,6 @@ body {
       transparent 3px
     ),
     linear-gradient(180deg, #2b2469 0%, #171541 100%);
-
   box-shadow:
     inset 0 0 0 7px var(--pink-light),
     inset 0 0 0 14px var(--purple),
@@ -247,23 +241,17 @@ body {
   position: absolute;
   top: 16px;
   right: 16px;
-
   width: 40px;
   height: 40px;
-
   border: 5px solid var(--bg-dark);
   border-radius: 10px;
-
   cursor: pointer;
-
   color: white;
   background: linear-gradient(180deg, #ff9fcb 0%, #e878b6 55%, #9f61d9 100%);
-
   font-family: inherit;
   font-size: 26px;
   font-weight: 900;
   line-height: 1;
-
   box-shadow:
     inset 0 0 0 4px rgba(255, 255, 255, 0.28),
     4px 4px 0 var(--shadow);
@@ -279,15 +267,12 @@ body {
 .how-card h2 {
   width: 100%;
   margin: 0 0 24px;
-
   color: var(--pink);
   text-align: center;
   white-space: nowrap;
-
   font-size: clamp(24px, 4.4vw, 38px);
   line-height: 1;
   letter-spacing: 3px;
-
   text-shadow:
     3px 3px 0 var(--bg-dark),
     0 0 10px rgba(255, 159, 203, 0.18);
@@ -303,14 +288,10 @@ body {
   grid-template-columns: 150px 1fr;
   align-items: center;
   gap: 16px;
-
   padding: 13px 14px;
-
   border: 4px solid var(--bg-dark);
   border-radius: 12px;
-
   background: rgba(255, 255, 255, 0.08);
-
   box-shadow:
     inset 0 0 0 3px rgba(255, 255, 255, 0.08),
     4px 4px 0 rgba(16, 16, 57, 0.7);
@@ -326,21 +307,16 @@ body {
   min-width: 52px;
   height: 44px;
   padding: 0 12px;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   border: 4px solid var(--bg-dark);
   border-radius: 9px;
-
   color: white;
   background: linear-gradient(180deg, #c9a7ff 0%, #a875e8 55%, #8058cf 100%);
-
   font-size: 22px;
   font-weight: 900;
   letter-spacing: 1px;
-
   box-shadow:
     inset 0 0 0 4px rgba(255, 255, 255, 0.24),
     inset 0 -5px 0 rgba(23, 21, 65, 0.24),
@@ -355,18 +331,15 @@ body {
 .control-row strong {
   display: block;
   margin-bottom: 4px;
-
   color: #9ee6c6;
   font-size: 18px;
   font-weight: 900;
   letter-spacing: 1px;
-
   text-shadow: 2px 2px 0 rgba(23, 21, 65, 0.8);
 }
 
 .control-row p {
   margin: 0;
-
   color: white;
   font-size: 15px;
   font-weight: 800;
@@ -376,21 +349,16 @@ body {
 .how-goal {
   margin-top: 18px;
   padding: 14px 16px;
-
   border: 4px solid var(--bg-dark);
   border-radius: 12px;
-
   color: #ffd18c;
   background: rgba(255, 209, 140, 0.1);
-
   font-size: 16px;
   font-weight: 900;
   line-height: 1.35;
   text-align: center;
   letter-spacing: 1px;
-
   text-shadow: 2px 2px 0 rgba(23, 21, 65, 0.8);
-
   box-shadow:
     inset 0 0 0 3px rgba(255, 255, 255, 0.07),
     4px 4px 0 rgba(16, 16, 57, 0.7);
@@ -559,19 +527,30 @@ body {
   width: 100%;
   height: 54px;
   margin-bottom: 16px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
   border: 5px solid var(--bg-dark);
   border-radius: 10px;
   cursor: pointer;
+
   color: white;
+  text-decoration: none;
+
   font-family: inherit;
   font-size: 18px;
   font-weight: 900;
   letter-spacing: 1px;
+
   background: linear-gradient(180deg, #f79fcb 0%, #e878b6 55%, #b665d5 100%);
+
   box-shadow:
     inset 0 0 0 5px rgba(255, 255, 255, 0.35),
     inset 0 -8px 0 rgba(35, 20, 85, 0.35),
     6px 6px 0 var(--shadow);
+
   transition: transform 0.15s ease;
 }
 
@@ -579,11 +558,15 @@ body {
   background: linear-gradient(180deg, #a9c8ff 0%, #829eea 55%, #7a65d8 100%);
 }
 
-.menu-button:nth-of-type(3) {
+.how-button {
   background: linear-gradient(180deg, #ffd18c 0%, #f5a257 55%, #d97967 100%);
 }
 
-.menu-button:nth-of-type(4) {
+.source-button {
+  background: linear-gradient(180deg, #b8f0dc 0%, #83d8b5 55%, #57aa97 100%);
+}
+
+.quit-button {
   background: linear-gradient(180deg, #c89bff 0%, #a36fe0 55%, #7b5bce 100%);
 }
 
