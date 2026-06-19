@@ -1,18 +1,22 @@
+// =======================
+// DOM ELEMENTS
+// =======================
 const container = document.querySelector(".container");
 const startButton = document.querySelector(".start-button");
-const quitButton = document.querySelector(".quit-button");
 const howButton = document.querySelector(".how-button");
+const quitButton = document.querySelector(".quit-button");
 
+// =======================
+// GAME AREA SIZE
+// =======================
 let conDim = {
   width: container.clientWidth,
   height: container.clientHeight,
 };
 
-const gameover = document.createElement("div");
-gameover.className = "gameover-banner";
-gameover.style.display = "none";
-container.appendChild(gameover);
-
+// =======================
+// CREATED UI AND GAME ELEMENTS
+// =======================
 const howPopup = document.createElement("div");
 howPopup.className = "how-popup";
 howPopup.innerHTML = `
@@ -61,6 +65,11 @@ howPopup.innerHTML = `
 `;
 document.body.appendChild(howPopup);
 
+const gameover = document.createElement("div");
+gameover.className = "gameover-banner";
+gameover.style.display = "none";
+container.appendChild(gameover);
+
 const ball = document.createElement("div");
 ball.className = "ball";
 ball.style.display = "none";
@@ -70,6 +79,43 @@ const paddle = document.createElement("div");
 paddle.className = "paddle";
 container.appendChild(paddle);
 
+// =======================
+// GAME STATE
+// =======================
+const player = {
+  started: false,
+  gameover: false,
+};
+
+// =======================
+// EVENT LISTENERS
+// =======================
+
+// Menu buttons
+startButton.addEventListener("click", startGame);
+
+quitButton.addEventListener("click", function () {
+  window.location.reload();
+});
+
+howButton.addEventListener("click", function () {
+  howPopup.style.display = "flex";
+});
+
+// Popup controls
+howPopup.addEventListener("click", function (e) {
+  if (e.target === howPopup || e.target.classList.contains("how-close")) {
+    howPopup.style.display = "none";
+  }
+});
+
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") {
+    howPopup.style.display = "none";
+  }
+});
+
+// Keyboard controls
 document.addEventListener("keydown", function (e) {
   if (e.keyCode === 37) paddle.left = true;
   if (e.keyCode === 39) paddle.right = true;
@@ -91,33 +137,9 @@ document.addEventListener("keyup", function (e) {
   }
 });
 
-const player = {
-  started: false,
-  gameover: false,
-};
-
-startButton.addEventListener("click", startGame);
-
-quitButton.addEventListener("click", function () {
-  window.location.reload();
-});
-
-howButton.addEventListener("click", function () {
-  howPopup.style.display = "flex";
-});
-
-howPopup.addEventListener("click", function (e) {
-  if (e.target === howPopup || e.target.classList.contains("how-close")) {
-    howPopup.style.display = "none";
-  }
-});
-
-document.addEventListener("keydown", function (e) {
-  if (e.key === "Escape") {
-    howPopup.style.display = "none";
-  }
-});
-
+// =======================
+// GAME FLOW
+// =======================
 function startGame() {
   if (player.started && !player.gameover) {
     return;
@@ -189,108 +211,16 @@ function nextLevel() {
   player.level++;
   player.inplay = false;
 
-  let brickAmount = 15 + player.level * 5;
+  let brickAmount = 16 + player.level * 5;
   setupBricks(brickAmount);
 
   scoreUpdate();
   resetBall();
 }
 
-function setupBricks(num) {
-  conDim = {
-    width: container.clientWidth,
-    height: container.clientHeight,
-  };
-
-  const brickWidth = 104;
-  const brickHeight = 34;
-  const gapX = 8;
-  const gapY = 10;
-  const sidePadding = 34;
-  const topPadding = 50;
-
-  const availableWidth = conDim.width - sidePadding * 2;
-  const columns = Math.floor((availableWidth + gapX) / (brickWidth + gapX));
-
-  const totalRowWidth = columns * brickWidth + (columns - 1) * gapX;
-  const startX = (conDim.width - totalRowWidth) / 2;
-
-  for (let i = 0; i < num; i++) {
-    const col = i % columns;
-    const row = Math.floor(i / columns);
-
-    const x = startX + col * (brickWidth + gapX);
-    const y = topPadding + row * (brickHeight + gapY);
-
-    if (y + brickHeight > conDim.height / 2) {
-      return;
-    }
-
-    createBrick({
-      x: x,
-      y: y,
-      count: i,
-    });
-  }
-}
-
-function createBrick(pos) {
-  const div = document.createElement("div");
-
-  const colors = [
-    ["#ffc7dc", "#f27aaa", "#d85f91"], // pink
-    ["#b8ccff", "#82a5f5", "#6377d7"], // blue
-    ["#c9a7ff", "#a875e8", "#8058cf"], // purple
-    ["#b8f0dc", "#83d8b5", "#57aa97"], // green
-    ["#ffd18f", "#f6aa62", "#df7b61"], // orange
-    ["#ffb8c4", "#f47f8f", "#dc626d"], // coral
-  ];
-
-  const color = colors[Math.floor(Math.random() * colors.length)];
-
-  div.setAttribute("class", "brick");
-  div.style.setProperty("--brick-top", color[0]);
-  div.style.setProperty("--brick-mid", color[1]);
-  div.style.setProperty("--brick-bottom", color[2]);
-
-  div.style.left = pos.x + "px";
-  div.style.top = pos.y + "px";
-
-  container.appendChild(div);
-}
-
-function clearBricks() {
-  let bricks = document.querySelectorAll(".brick");
-
-  for (let brick of bricks) {
-    brick.remove();
-  }
-}
-
-function isCollide(a, b) {
-  let aRect = a.getBoundingClientRect();
-  let bRect = b.getBoundingClientRect();
-
-  return !(
-    aRect.right < bRect.left ||
-    aRect.left > bRect.right ||
-    aRect.bottom < bRect.top ||
-    aRect.top > bRect.bottom
-  );
-}
-
-function randomColor() {
-  return "#" + Math.random().toString(16).substr(-6);
-}
-
-function scoreUpdate() {
-  document.querySelector(".score").textContent = player.score;
-  document.querySelector(".lives").textContent = "❤ "
-    .repeat(player.lives)
-    .trim();
-  document.querySelector(".level").textContent = player.level;
-}
-
+// =======================
+// GAME LOOP
+// =======================
 function update() {
   if (player.started && !player.gameover) {
     let pCurrent = paddle.offsetLeft;
@@ -368,6 +298,106 @@ function moveBall() {
 
   ball.style.top = posBall.y + "px";
   ball.style.left = posBall.x + "px";
+}
+
+// =======================
+// BRICKS
+// =======================
+function setupBricks(num) {
+  conDim = {
+    width: container.clientWidth,
+    height: container.clientHeight,
+  };
+
+  const brickWidth = 104;
+  const brickHeight = 34;
+  const gapX = 8;
+  const gapY = 10;
+  const sidePadding = 34;
+  const topPadding = 50;
+
+  const availableWidth = conDim.width - sidePadding * 2;
+  const columns = Math.floor((availableWidth + gapX) / (brickWidth + gapX));
+
+  const totalRowWidth = columns * brickWidth + (columns - 1) * gapX;
+  const startX = (conDim.width - totalRowWidth) / 2;
+
+  for (let i = 0; i < num; i++) {
+    const col = i % columns;
+    const row = Math.floor(i / columns);
+
+    const x = startX + col * (brickWidth + gapX);
+    const y = topPadding + row * (brickHeight + gapY);
+
+    if (y + brickHeight > conDim.height / 2) {
+      return;
+    }
+
+    createBrick({
+      x: x,
+      y: y,
+      count: i,
+    });
+  }
+}
+
+function createBrick(pos) {
+  const div = document.createElement("div");
+
+  const colors = [
+    ["#ffc7dc", "#f27aaa", "#d85f91"], // pink
+    ["#b8ccff", "#82a5f5", "#6377d7"], // blue
+    ["#c9a7ff", "#a875e8", "#8058cf"], // purple
+    ["#b8f0dc", "#83d8b5", "#57aa97"], // green
+    ["#ffd18f", "#f6aa62", "#df7b61"], // orange
+    ["#ffb8c4", "#f47f8f", "#dc626d"], // coral
+  ];
+
+  const color = colors[Math.floor(Math.random() * colors.length)];
+
+  div.setAttribute("class", "brick");
+  div.style.setProperty("--brick-top", color[0]);
+  div.style.setProperty("--brick-mid", color[1]);
+  div.style.setProperty("--brick-bottom", color[2]);
+
+  div.style.left = pos.x + "px";
+  div.style.top = pos.y + "px";
+
+  container.appendChild(div);
+}
+
+function clearBricks() {
+  let bricks = document.querySelectorAll(".brick");
+
+  for (let brick of bricks) {
+    brick.remove();
+  }
+}
+
+// =======================
+// COLLISION
+// =======================
+function isCollide(a, b) {
+  let aRect = a.getBoundingClientRect();
+  let bRect = b.getBoundingClientRect();
+
+  return !(
+    aRect.right < bRect.left ||
+    aRect.left > bRect.right ||
+    aRect.bottom < bRect.top ||
+    aRect.top > bRect.bottom
+  );
+}
+
+// =======================
+// HUD
+// =======================
+function scoreUpdate() {
+  document.querySelector(".score").textContent = player.score;
+  document.querySelector(".lives").textContent = "❤ "
+    .repeat(player.lives)
+    .trim();
+  document.querySelector(".level").textContent = player.level;
 }
 
 /*var start = null;
