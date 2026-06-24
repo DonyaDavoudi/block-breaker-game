@@ -5,6 +5,7 @@ const container = document.querySelector(".container");
 const startButton = document.querySelector(".start-button");
 const howButton = document.querySelector(".how-button");
 const quitButton = document.querySelector(".quit-button");
+const exitButton = document.querySelector(".exit-button");
 
 // =======================
 // GAME AREA SIZE
@@ -96,6 +97,14 @@ startButton.addEventListener("click", startGame);
 
 quitButton.addEventListener("click", function () {
   window.location.reload();
+});
+
+exitButton.addEventListener("click", function () {
+  window.close();
+
+  setTimeout(function () {
+    alert("Your browser blocked closing this tab. Please close it manually.");
+  }, 200);
 });
 
 howButton.addEventListener("click", function () {

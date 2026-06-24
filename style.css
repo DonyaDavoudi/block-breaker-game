@@ -6,7 +6,7 @@
   --bg-dark: #171541;
   --bg-panel: #211950;
   --pink: #ff9fcb;
-  --heart-pink: #e85f98;
+  --heart-white: #ffffff;
   --pink-light: #ffc1df;
   --purple: #a970e7;
   --purple-dark: #7656c9;
@@ -77,7 +77,7 @@ body {
 }
 
 .lives {
-  color: var(--heart-pink);
+  color: var(--heart-white);
   letter-spacing: 4px;
   text-shadow:
     2px 2px 0 rgba(23, 21, 65, 0.75),
